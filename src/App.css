@@ -5,13 +5,23 @@
   text-align: center;
 }
 
+.logo{
+  font-size: 80px;
+  margin: 0;
+}
+
+.indexText{
+  font-style: italic;
+  font-size: 20px;
+}
+
 
 
 .startButton{
   background: #4D5B9E;
   border-radius: 15px;
-  width: 193px;
-  font-size: 20px;
+  width: 200px;
+  font-size: 25px;
 }
 
 .question {
@@ -32,18 +42,29 @@
   color: #293264;
 }
 
-.selectedButton {
-  border-radius: 7.94239px;
-  margin-right: 7px;
-  padding: 10px;
-  background-color: black;
-  border: 1px solid #4D5B9E;
-  color: white;
+.correctAnswers{
+  background-color: green;
+  color:white;
 }
+
+.incorrectAnswer{
+  background-color: #F8BCBC;
+}
+
 .questionPage{
+    margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      /* min-width: 320px;
+      min-height: 100vh; */
+
+}
+
+.questionLine{
   display: flex;
   flex-direction: column;
-  align-content: flex-start;
+  align-items: flex-start;
 }
 
 .checkAnswer {
@@ -56,4 +77,10 @@
   font-size: 20px;
   margin-top: 20px;
   color: white;
+}
+
+
+.questionHead{
+  text-decoration: underline;
+  font-size: 40px;
 }

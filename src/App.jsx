@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
 import IndexPage from "./components/IndexPage";
 import top from "./images/top-image.png";
@@ -13,7 +12,9 @@ function App() {
 
   const [userChoice, setUserChoice] = useState({});
 
-  const [isSelected, setIsSelected] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
+  // const [correctAnswers, setCorrectAnswers] = useState({});
 
   useEffect(() => {
     fetch(
@@ -21,28 +22,33 @@ function App() {
     )
       .then((res) => res.json())
       .then((data) => setQuestionData(data.results));
-  }, []);
+  }, [isQuizStarted]);
 
-  console.log({ userChoice });
+  const correctAnswers = {};
   const questionElements = questionData.map((question, index) => {
+    correctAnswers[index] = question.correct_answer;
+
     return (
       <QuestionLine
-        isSelected={isSelected}
         userChoice={userChoice}
         handleChange={handleChange}
         id={index}
         question={question}
         key={index}
+        isSubmitted={isSubmitted}
+        isQuizStarted={isQuizStarted}
       />
     );
   });
 
   function StartEndQuiz() {
     setIsQuizStarted((prev) => !prev);
+    if (isQuizStarted == false) {
+      setIsSubmitted(false);
+    }
   }
 
-  function handleChange(e, idx) {
-    console.log(e);
+  function handleChange(e, id) {
     e.preventDefault();
     setUserChoice((prevChoices) => {
       return {
@@ -50,24 +56,49 @@ function App() {
         [e.target.name]: e.target.value,
       };
     });
-    if (Object.values(userChoice).includes(e.target.value)) {
-      setIsSelected(true);
+    if (userChoice[id] == correctAnswers[id]) {
+      setScore((score) => score + 1);
     }
-    console.log({ select: isSelected });
   }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log({ userChoice });
+    console.log({ correctAnswers });
+    let totalScore = 0;
+    for (const [key, value] of Object.entries(correctAnswers)) {
+      if (userChoice[key] == value) {
+        totalScore += 1;
+      }
+    }
+    setIsSubmitted(true);
+    setScore(totalScore);
+  }
+
+  const totalQuestions = Object.keys(correctAnswers).length;
 
   return (
     <div>
       {isQuizStarted ? (
-        <div>
-          {questionElements}{" "}
-          <button className="checkAnswer">Check Answers</button>
+        <div className="questionPage">
+          <h1 className="questionHead">Questions</h1>
+          {questionElements}
+          {isSubmitted ? (
+            <div>
+              <h3>
+                You scored {score}/ {totalQuestions} correct answers
+              </h3>
+              <button onClick={StartEndQuiz}>Play Again</button>
+            </div>
+          ) : (
+            <button onClick={handleSubmit} className="checkAnswer">
+              Check Answers
+            </button>
+          )}
         </div>
       ) : (
         <IndexPage quizStart={StartEndQuiz} />
       )}
-      <img className="bottomImage" src={bottom} />
-      <img className="topImage" src={top} />
     </div>
   );
 }

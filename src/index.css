@@ -31,6 +31,12 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-image: url('./images/bottom-image.png'), url('./images/top-image.png');
+  background-repeat: no-repeat;
+  background-position: -5% 105%, 115% 0%;
+  margin-top: 0;
+  margin-right: 0;
+  background-attachment: fixed;
 }
 
 h1 {
@@ -45,39 +51,25 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+
 
 .bottomImage {
   position: absolute;
-  bottom: -50px;
+  bottom: -30px;
   left: -50px;
+  opacity: 50%;
 }
 
 .topImage {
   position: absolute;
   right: -150px;
-  top: -50px;
+  top: -30px;
+  opacity: 50%;
 }
